@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><%= title %></title>
+  <title>Movie Rates</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -57,19 +57,48 @@
           <!-- Notifications: style can be found in dropdown.less -->
           
           <!-- User Account: style can be found in dropdown.less -->
-          <li>
-            <a href="login" style="padding-right: 8px;padding-left: 8px;">
-              <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
-              <span class="hidden-xs">Sign up</span>
-            </a>
-          </li>
-          <li style="padding-top: 15px;"><span style="color: white;">Or</span></li>
-          <li>
-            <a href="register" style="padding-left: 8px;padding-right: 8px;">
-              <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
-              <span class="hidden-xs">Sign in</span>
-            </a>
-          </li>
+          <% if (!id) { %>
+            <li>
+              <a href="login" style="padding-right: 8px;padding-left: 8px;">
+                <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
+                <span class="hidden-xs">Sign in</span>
+              </a>
+            </li>
+            <li style="padding-top: 15px;"><span style="color: white;">Or</span></li>
+            <li>
+              <a href="register" style="padding-left: 8px;padding-right: 8px;">
+                <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
+                <span class="hidden-xs">Sign up</span>
+              </a>
+            </li>
+          <% } else { %>
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="<%= img%>" class="user-image" alt="User Image">
+                <span class="hidden-xs"><%= name %></span>
+              </a>
+              <ul class="dropdown-menu">
+              <!-- User image -->
+                <li class="user-header">
+                  <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <p>
+                    <%= name%>
+                  </p>
+                </li>
+                <!-- Menu Body -->
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="#" class="btn btn-default btn-flat" id="logout">Sign out</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          <% } %>
+
           <!-- Control Sidebar Toggle Button -->
           <!-- <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -107,16 +136,23 @@
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree" id="genres">
         <li class="header">GENRES</li>
-        <li>
+        <!-- <li>
+
           <a href="../widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">Hot</small>
             </span>
           </a>
-        </li>
+          <a href="../widgets.html">
+            <i class="fa fa-th"></i> <span>Widgets</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li> -->
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -177,6 +213,9 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script src="/javascripts/general.js"></script>
+<script src="/javascripts/genres.js"></script>
+<script src="/javascripts/main.js"></script>
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree()
