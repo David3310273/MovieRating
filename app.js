@@ -7,11 +7,14 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var config = require('./config');
 
+// view rendering route
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var RegisterRouter = require('./routes/register');
-var genresRouter = require('./routes/genres');
+
+// api for web page
+var usersRouter = require('./services/users');
+var genresRouter = require('./services/genres');
 
 var app = express();
 

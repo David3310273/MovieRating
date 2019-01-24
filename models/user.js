@@ -24,13 +24,11 @@ var utils = {
 
     list: (user, column) => {
         loginWithName = {
-            name: user.name,
-            password: user.password
+            name: user.name
         }
 
         loginWithEmail = {
-            email: user.email,
-            password: user.password
+            email: user.email
         }
 
         return Promise.all([User.findOne(loginWithName).exec(), User.findOne(loginWithEmail).exec()]) 

@@ -27,7 +27,7 @@ $("#login").click(function() {
             if (data.code == 0) {
                 window.location.href = '/'
             } else {
-                showAlert("The user doesn't exists, please check or register first!", 1); 
+                showAlert(data.data, 1); 
             }
         },
         error: function(err) {

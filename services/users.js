@@ -3,6 +3,7 @@ var router = express.Router();
 var user = require('../models/user');
 var errorCode = require('../config/errorCode')
 var crypto = require('crypto')
+var logger = require("./logger")
 
 /* user registering. */
 router.post('/register', (req, res, next) => {
@@ -24,7 +25,7 @@ router.post('/register', (req, res, next) => {
 
 /* user logout*/
 router.post('/logout', (req, res, next) => {
-    result = {}
+    result = {};
     req.session.destroy((err) => {
         if (err) {
             result.code = errorCode.ERROR.code;
@@ -43,28 +44,29 @@ router.post('/logout', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     result = {}
     md5 = crypto.createHash('md5')
+    password = md5.update(req.body.password).digest('hex')
     // console.log(md5.update(req.body.password).digest('hex'))
     query = {
         name: req.body.name,
-        password: md5.update(req.body.password).digest('hex'),
         email: req.body.email
     }
     user.utils.list(query).then((data) => {
         userItem = data[0] || data[1]
         if (userItem) {
-            //write session if user agrees
-            if (req.body.remember) {
-                req.session.userId = userItem._id
-                req.session.name = userItem.name
-                req.session.img = userItem.img || ""
-                console.log(req.session)
+            if (userItem.password != password) {
+                return Promise.reject("Wrong password, please check.")
             }
+            //write session when user login succeed
+            req.session.userId = userItem._id
+            req.session.name = userItem.name
+            req.session.img = userItem.img || ""
+
             result.code = errorCode.SUCCESS.code;
             result.msg = errorCode.SUCCESS.msg;
             result.data = userItem;
             res.send(result);
         } else {
-            return Promise.reject("the user doesn't exist!")
+            return Promise.reject("The user doesn't exist!")
         }
     }).catch((err) => {
         result.code = errorCode.ERROR.code;
