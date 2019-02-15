@@ -4,7 +4,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('login', { title: 'Welcome to movie rates' });
+    res.render('login', {
+        title: 'Welcome to movie rates',
+        layout: "login"
+    });
 });
 
 module.exports = router;

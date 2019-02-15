@@ -3,7 +3,6 @@ var router = express.Router();
 var user = require('../models/user');
 var errorCode = require('../config/errorCode')
 var crypto = require('crypto')
-var logger = require("./logger")
 
 /* user registering. */
 router.post('/register', (req, res, next) => {
@@ -21,6 +20,16 @@ router.post('/register', (req, res, next) => {
         }
         res.send(result);
     });
+});
+
+/* user info */
+
+router.post('/info', (req, res, next) => {
+    result = {}
+    result.code = errorCode.SUCCESS.code;
+    result.msg = errorCode.SUCCESS.msg;
+    result.data = req.session;
+    res.send(result)
 });
 
 /* user logout*/

@@ -3,7 +3,7 @@ var genres = require('../models/genres');
 var errorCode = require('../config/errorCode')
 var router = express.Router();
 
-var listCall = (req, res, next) => {
+router.get(['/list', '/list/:id'], (req, res, next) => {
   var result = {}
   var id = req.params.id || undefined;
   var columns = {};
@@ -26,14 +26,6 @@ var listCall = (req, res, next) => {
     }
     res.send(result);
   });
-}
-
-router.get('/list', (req, res, next) => {
-  listCall(req, res, next);
-});
-
-router.get('/list/:id', (req, res, next) => {
-  listCall(req, res, next)
 });
 
 module.exports = router;

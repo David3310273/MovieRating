@@ -15,12 +15,19 @@ var RegisterRouter = require('./routes/register');
 // api for web page
 var usersRouter = require('./services/users');
 var genresRouter = require('./services/genres');
+var movieRouter = require('./services/movies');
+var behaviorsRouter = require('./services/behaviors');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'html');
+app.set('layout', 'main');
+app.set('partials', {
+  foo: path.join(__dirname, 'views')
+});
+app.engine('html', require('hogan-express'));
 
 app.use(logger('dev'));
 app.use(session({
@@ -40,6 +47,8 @@ app.use('/user', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', RegisterRouter);
 app.use('/genres', genresRouter);
+app.use('/movies', movieRouter);
+app.use('/behaviors', behaviorsRouter)
 
 // mongodb connection
 mongoose.connect(config.db);
