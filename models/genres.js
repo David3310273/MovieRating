@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var redis = require('redis').createClient();
 
 var genresSchema = new mongoose.Schema({
     id: {type: Number, required: true, index: {unique: true}},

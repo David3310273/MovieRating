@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var redis = require('redis');
 var config = require('./config');
 
 // view rendering route
@@ -49,6 +50,14 @@ app.use('/register', RegisterRouter);
 app.use('/genres', genresRouter);
 app.use('/movies', movieRouter);
 app.use('/behaviors', behaviorsRouter)
+
+// redis connection
+
+client = redis.createClient(config.redis)
+
+client.on('error', function(err){
+  console.log('redis connection error', err)
+})
 
 // mongodb connection
 mongoose.connect(config.db);
