@@ -5,6 +5,7 @@ function getMovieItem(data) {
     template += '<span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>';
     template += '<div class="info-box-content">'
     template += '<span class="info-box-text">' + data.name + '</span>'
+    template += '<span class="info-box-text">' + data.genres + '</span>'
     template += '<span class="info-box-number">' + data.rate + '</span>'
     template += '</div></div></div>';
 

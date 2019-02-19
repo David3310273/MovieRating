@@ -1,11 +1,39 @@
 var express = require('express');
 var router = express.Router();
+var errorCode = require('../config/errorCode');
 var genres = require('../models/genres');
 var movies = require('../models/movie');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index');
+});
+
+// Search movie by name
+router.get("/movie/search", (req, res, next) => {
+    var name = req.query.q || "";
+    var columns = {};
+    var conditions = {};
+    var limit = req.query.limit || 32
+
+    if (name) {
+        conditions.name = name;
+    }
+
+    movies.utils.list(conditions, columns, limit).then((data) => {
+        res.render("search", {
+            q: name,
+            movies: data
+        });
+    }).catch((err) => {
+        result = {}
+        if (err) {
+            result.code = errorCode.ERROR.code;
+            result.msg = errorCode.ERROR.msg;
+            result.data = err;
+        }
+        res.send(result);
+    });
 });
 
 /* GET movie details*/
@@ -22,9 +50,11 @@ router.get("/movie/:id", (req, res, next) => {
     movies.utils.list(conditions, columns, limit).then((data) => {
         res.render("movie", {
             name: data.name,
-            rate: data.rate
+            rate: data.rate,
+            genres: data.genres
         });
     }).catch((err) => {
+        result = {}
         if (err) {
             result.code = errorCode.ERROR.code;
             result.msg = errorCode.ERROR.msg;
@@ -48,7 +78,6 @@ router.get("/genre/:id", (req, res, next) => {
         conditions.genres = data.name;
 
         movies.utils.list(conditions, columns, limit).then((movies) => {
-            console.log(movies)
             res.render('genres', {
                 name: data.name,
                 movies: movies

@@ -15,9 +15,18 @@ var utils = {
     list: (conditions, columns, limit) => {
         if (conditions._id) {
             return Movie.findOne(conditions).limit(limit).select(columns).exec();
-        } else if (conditions.genres) {
+        }
+
+        if (conditions.genres) {
             conditions.genres = {
                 $regex: conditions.genres
+            }
+        }
+        
+        if (conditions.name) {
+            conditions.name = {
+                '$regex': conditions.name,
+                '$options': 'i'
             }
         }
         

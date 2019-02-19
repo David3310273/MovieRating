@@ -1,12 +1,11 @@
 <section class="content-header">
   <h1>
-    {{name}}
-    <small>it all starts here</small>
+    Results from "{{q}}"
   </h1>
-  <ol class="breadcrumb">
+  <!-- <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Lists</a></li>
-  </ol>
+  </ol> -->
 </section>
 <section class="content" id="moviesInGenres">
   {{#movies}}
@@ -15,10 +14,12 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">{{name}}</span>
-                <span class="info-box-text">{{genres}}</span>
                 <span class="info-box-number">{{rate}}</span>
             </div>
         </div>
     </div>
+  {{/movies}}
+  {{^movies}}
+    <span style="color: grey;">No results found</span>
   {{/movies}}
 </section>
