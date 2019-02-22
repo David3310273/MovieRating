@@ -51,6 +51,7 @@ router.get("/movie/:id", (req, res, next) => {
         res.render("movie", {
             name: data.name,
             rate: data.rate,
+            _id: data._id,
             genres: data.genres
         });
     }).catch((err) => {

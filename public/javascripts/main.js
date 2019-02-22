@@ -37,6 +37,39 @@ $.ajax({
     success: function(data) {
         for (var i = 0; i < data.data.length; i++) {
             movie = getMovieItem(data.data[i])
+            $("#specials").append(movie)
+        }
+    },
+    error: function(err) {
+        showAlert("Internal error!")
+    }
+})
+
+$("#refresh").click(function(e) {
+    $.ajax({
+        url: "/movies/getSpecials",
+        dataType: "json",
+        type: "post",
+        success: function(data) {
+            $('#specials').empty();
+            for (var i = 0; i < data.data.length; i++) {
+                movie = getMovieItem(data.data[i])
+                $("#specials").append(movie)
+            }
+        },
+        error: function(err) {
+            showAlert("Internal error!")
+        }
+    })
+})
+
+$.ajax({
+    url: "/movies/getSpecials",
+    dataType: "json",
+    type: "post",
+    success: function(data) {
+        for (var i = 0; i < data.data.length; i++) {
+            movie = getMovieItem(data.data[i])
             $("#movies").append(movie)
         }
     },
@@ -62,7 +95,7 @@ $("#genres").on("click", ".genres", function(e) {
     })
 })
 
-$("#movies").on("click", ".info-box", function(e) {
+$("#movies, #specials").on("click", ".info-box", function(e) {
     var href = $(this).attr("data-href")
     $.ajax({
         url: "/behaviors/movies",
@@ -72,7 +105,9 @@ $("#movies").on("click", ".info-box", function(e) {
             movieId: $(this).attr("id")
         },
         success: function(data) {
-            window.location.href = href;
+            if (href) {
+                window.location.href = href;
+            }
             e.stopPropagation();
         },
         error: function(err) {
@@ -91,7 +126,9 @@ $(".info-box").click(function(e) {
             movieId: $(this).attr("id")
         },
         success: function(data) {
-            window.location.href = href;
+            if (href) {
+                window.location.href = href;
+            }
             e.stopPropagation();
         },
         error: function(err) {
