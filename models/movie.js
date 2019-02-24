@@ -12,6 +12,20 @@ var movieSchema = new mongoose.Schema({
 
 var Movie = mongoose.model('movie', movieSchema);
 var utils = {
+    update: (conditions, item) => {
+        return Movie.findOne(conditions).exec().then((movie) => {
+            console.log(item)
+            if (movie) {
+                movie.rate = parseInt(item.rate)
+                return movie.save()
+            } else {
+                return new Promise((resolve, reject) => {
+                    reject("No record found!")
+                })
+            }
+        })
+    },
+
     list: (conditions, columns, limit) => {
         if (conditions._id) {
             if (typeof conditions._id == "string") {
@@ -19,11 +33,10 @@ var utils = {
             } else {
                 return Movie.find(conditions).limit(limit).select(columns).exec();
             }
-        }
-
-        if (conditions.genres) {
+        } else if (conditions.genres) {
+            delete conditions._id
             conditions.genres = {
-                $regex: conditions.genres
+                '$regex': conditions.genres
             }
         }
         
@@ -33,7 +46,7 @@ var utils = {
                 '$options': 'i'
             }
         }
-        
+        console.log(conditions)
         return Movie.find(conditions).limit(limit).select(columns).exec();
     }
 }

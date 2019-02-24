@@ -42,6 +42,7 @@ router.get("/movie/:id", (req, res, next) => {
     var columns = {};
     var conditions = {};
     var limit = 1;
+    var isLogin = req.session || undefined
 
     if (id) {
         conditions._id = id;
@@ -52,7 +53,8 @@ router.get("/movie/:id", (req, res, next) => {
             name: data.name,
             rate: data.rate,
             _id: data._id,
-            genres: data.genres
+            genres: data.genres,
+            isLogin: isLogin
         });
     }).catch((err) => {
         result = {}
@@ -70,19 +72,10 @@ router.get("/genre/:id", (req, res, next) => {
     genres.utils.list({_id: req.params.id}).then((data) => {
         return Promise.resolve(data)
     }).then((data) => {
-        var result = {}
-        var genresId = req.body.genres || "";
-        var columns = {};
-        var conditions = {};
-        var limit = req.body.limit || 32;
-
-        conditions.genres = data.name;
-
-        movies.utils.list(conditions, columns, limit).then((movies) => {
-            res.render('genres', {
-                name: data.name,
-                movies: movies
-            })
+        var genresId = req.params.id || "";
+        res.render('genres', {
+            name: data.name,
+            genresId: genresId
         })
     }).catch((err) => {
         console.log(err)

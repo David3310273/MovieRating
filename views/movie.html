@@ -13,8 +13,17 @@
           <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
           <div class="info-box-content">
               <span class="info-box-text">{{name}}</span>
-              <span class="info-box-text">{{genres}}</span>
-              <span class="info-box-number">{{rate}}</span>
+              <span class="info-box-text genres" id="genres">{{genres}}</span>
+              rate here:
+              <div id="stars" class="stars" style="cursor: pointer;display: inline-block;">
+                <i class="fa fa-fw fa-star-o star" data-index="0"></i>
+                <i class="fa fa-fw fa-star-o star" data-index="1"></i>
+                <i class="fa fa-fw fa-star-o star" data-index="2"></i>
+                <i class="fa fa-fw fa-star-o star" data-index="3"></i>
+                <i class="fa fa-fw fa-star-o star" data-index="4"></i>
+                <span id="movierate" class="info-box-number">0</span>
+              <div>
+              <!-- <span class="info-box-number">{{rate}}</span> -->
           </div>
       </div>
   </div>
