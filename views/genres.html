@@ -8,17 +8,6 @@
     <li><a href="#">Lists</a></li>
   </ol>
 </section>
-<section class="content" id="moviesInGenres">
-  {{#movies}}
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box" style="cursor: pointer;" id="{{_id}}" data-href="/movie/{{_id}}">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">{{name}}</span>
-                <span class="info-box-text">{{genres}}</span>
-                <span class="info-box-number">{{rate}}</span>
-            </div>
-        </div>
-    </div>
-  {{/movies}}
+<section class="content" id="moviesInGenres" data-genres="{{genresId}}">
+  
 </section>
