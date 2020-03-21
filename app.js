@@ -59,6 +59,10 @@ client.on('error', function(err){
   console.log('redis connection error', err)
 })
 
+client.on('connect', function(){
+  console.log('redis connection succeed')
+})
+
 // mongodb connection
 mongoose.connect(config.db);
 
