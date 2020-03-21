@@ -88,16 +88,15 @@ if ($("#moviesInGenres").length > 0) {
 $(".stars").click(function(e) {
     // users already logged in can give rates
     movieId = $("div .info-box").attr('id')
-    console.log(movieId)
 
     if ($(this).attr("id")) {
         $.ajax({
-            url: "/movies/rate",
+            url: "/behaviors/ratings",
             dataType: "json",
             type: "post",
             data: {
-                _id: movieId,
-                rate: total
+                movieId: movieId,
+                rate: total,
             },
             success: function(data) {
                 showAlert("Rating success!")

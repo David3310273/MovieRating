@@ -1,6 +1,7 @@
 var express = require('express');
 var movie = require('../models/movie');
 var genres = require('../models/genres');
+var rate = require('../models/rate');
 var errorCode = require('../config/errorCode')
 var redis = require('redis').createClient();
 var router = express.Router();
@@ -31,6 +32,7 @@ router.post(['/list', '/list/:id'], (req, res, next) => {
   });
 });
 
+// update movie rate from redis
 router.post("/rate", (req, res, next) => {
   var result = {}
   var id = req.body._id || undefined;
@@ -40,19 +42,24 @@ router.post("/rate", (req, res, next) => {
     conditions._id = id
   }
 
-  movie.utils.update(conditions, req.body).then((data) => {
-    result.code = errorCode.SUCCESS.code;
-    result.msg = errorCode.SUCCESS.msg;
-    result.data = data;
-    res.send(result);
-  }).catch((err) => {
-    if (err) {
-        result.code = errorCode.ERROR.code;
-        result.msg = errorCode.ERROR.msg;
-        result.data = err;
-    }
-    res.send(result);
-  });
+  redis.hgetall("rates", (err, items) => {
+    // TODO: update rate of many movies
+  })
+
+  // update from redis
+  // rate.utils.update(req.body).then((data) => {
+  //   result.code = errorCode.SUCCESS.code;
+  //   result.msg = errorCode.SUCCESS.msg;
+  //   result.data = data;
+  //   res.send(result);
+  // }).catch((err) => {
+  //   if (err) {
+  //       result.code = errorCode.ERROR.code;
+  //       result.msg = errorCode.ERROR.msg;
+  //       result.data = err;
+  //   }
+  //   res.send(result);
+  // });
 });
 
 // update rate of a movie

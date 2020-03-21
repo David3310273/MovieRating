@@ -14,7 +14,6 @@ var Movie = mongoose.model('movie', movieSchema);
 var utils = {
     update: (conditions, item) => {
         return Movie.findOne(conditions).exec().then((movie) => {
-            console.log(item)
             if (movie) {
                 movie.rate = parseInt(item.rate)
                 return movie.save()
