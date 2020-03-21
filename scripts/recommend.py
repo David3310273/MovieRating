@@ -18,5 +18,5 @@ if __name__ == '__main__':
     recommend_list = movie_common.join(userlist).map(lambda line: (line[1][0], line[1][1])).reduceByKey(lambda a, b: [a]+[b] if type(a) != list and type(b) != list else (a+b if type(a) == list and type(b) == list else (a+[b] if type(a) == list else [a]+b))).map(lambda line: (line[0], line[1]))
     # result stores in redis
     for item in recommend_list.toLocalIterator():
-        conn.hset("recommends", item[0], item[1])
+        conn.hset("recommends", item[0], ",".join(item[1]))
 
