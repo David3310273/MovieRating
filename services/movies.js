@@ -114,6 +114,37 @@ router.post("/getSpecials", (req, res, next) => {
     })
 });
 
+
+router.post("/getRecommendations", (req, res, next) => {
+  var result = {}
+  var columns = {};
+  var conditions = {};
+  var limit = req.body.limit || 8;
+  var id = req.body.id || undefined
+  console.log("recommend test")
+  console.log(req.body.id)
+  redis.hget("recommends", id, function(err, keys) {
+      conditions._id = []
+      console.log(keys)
+      if (keys) {
+        conditions._id = keys.split(",")
+      }
+      movie.utils.list(conditions, columns, limit).then((data) => {
+        result.code = errorCode.SUCCESS.code;
+        result.msg = errorCode.SUCCESS.msg;
+        result.data = data;
+        res.send(result);
+      }).catch((err) => {
+        if (err) {
+            result.code = errorCode.ERROR.code;
+            result.msg = errorCode.ERROR.msg;
+            result.data = err;
+        }
+        res.send(result);
+      })
+    })
+});
+
 router.post("/listByGenres", (req, res, next) => {
   var result = {}
   var genresId = req.body.genres || "";

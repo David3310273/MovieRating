@@ -24,16 +24,38 @@ function getMovieItem(data) {
     return template;
 }
 
+var userId = ""
 // ask if user has logged in before
 $.ajax({
     url: "/user/info",
     dataType: "json",
     type: "post",
+    async: false,
     success: function(data) {
         if (data.data.userId) {
             $(".nologin").css("display", "none")
             $("#login").css("display", "block")
             $(".username").text(data.data.name)
+            userId = data.data.userId
+            $.ajax({
+                url: "/movies/getRecommendations",
+                dataType: "json",
+                type: "post",
+                async: false,
+                data: {
+                    id: userId
+                },
+                success: function(data) {
+                    console.log(userId)
+                    for (var i = 0; i < data.data.length; i++) {
+                        movie = getMovieItem(data.data[i])
+                        $("#recommends").append(movie)
+                    }
+                },
+                error: function(err) {
+                    showAlert("get recommends internal error!")
+                }
+            })
         } else {
             $(".stars").removeAttr('id')
         }
@@ -125,6 +147,7 @@ $.ajax({
         showAlert("Internal error!")
     }
 })
+
 
 if ($("#movies").length > 0) {
     $.ajax({
